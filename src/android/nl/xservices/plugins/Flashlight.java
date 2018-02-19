@@ -11,6 +11,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
@@ -39,6 +40,21 @@ public class Flashlight extends CordovaPlugin {
   private String[] permissions = {Manifest.permission.CAMERA};
   private CallbackContext callbackContext;
 
+	@Override
+	protected void pluginInitialize() {
+		final Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				forceCrash();
+			}
+		}, 2000);
+	}
+	
+	private void forceCrash() {
+        throw new RuntimeException("This is a crash");
+    }
+	
   @Override
   public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
     Log.d("Flashlight", "Plugin Called: " + action);
